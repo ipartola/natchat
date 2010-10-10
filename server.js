@@ -30,6 +30,8 @@ server = http.createServer(function(req, res) {
 		path += 'index.html';
 	}
 
+	console.log(req.socket.remoteAddress + ' - ' + req.method + ' ' + req.url);
+
 	fs.readFile(root + path, function(err, data){
 		if (err) return send404(res);
 
@@ -63,6 +65,6 @@ var privateKey = fs.readFileSync(settings.PRIVATE_KEY).toString();
 var certificate = fs.readFileSync(settings.CERTIFICATE).toString();
 
 var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
-server.setSecure(credentials);
+//server.setSecure(credentials);
 server.listen(settings.PORT);
 var relay = Relay(server, settings.BUFFER_SIZE, relayOptions);
