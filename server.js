@@ -27,7 +27,7 @@ server = http.createServer(function(req, res) {
 
 	if (req.headers.host != 'natchat.com' && req.headers.host != 'localhost') {
 		res.writeHead(301, {'Location': 'natchat.com' + path});
-		res.write('', 'utf8');
+		res.write(' ', 'utf8');
 		res.end();
 		return;
 	}

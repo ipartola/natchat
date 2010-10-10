@@ -27,6 +27,7 @@ module.exports = function(id, bufferSize) {
 
 
 	var assignNickname = function(nickname, client) {
+		nickname = nickname.substring(0, 16);
 		var nicks = {};
 		for (sessionId in nicknames) {
 			nicks[nicknames[sessionId]] = sessionId;
