@@ -23,8 +23,14 @@ getMimeType = function(extension) {
 		
 root = __dirname + '/htdocs',
 server = http.createServer(function(req, res) {
-	// your normal server code
 	var path = url.parse(req.url).pathname;
+
+	if (req.headers.host != 'natchat.com' && req.headers.host != 'localhost') {
+		res.writeHead(301, {'Location', 'natchat.com' + path});
+		res.write('', 'utf8');
+		res.end();
+	}
+
 
 	if (path[path.length - 1] == '/') {
 		path += 'index.html';
