@@ -29,6 +29,7 @@ server = http.createServer(function(req, res) {
 		res.writeHead(301, {'Location', 'natchat.com' + path});
 		res.write('', 'utf8');
 		res.end();
+		return;
 	}
 
 
