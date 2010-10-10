@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+	<title>NAT Chat</title>
+
+	<link type="text/css" rel="stylesheet" media="screen" href="/style.css" />
+	<script type="text/javascript" src="/json.js"></script> <!-- for ie -->
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="/master.js"></script>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<h1>NAT Chat<span id="external-ip"></span></h1>
+			<div id="chat-info">
+				<p>Only people with that external IP can enter this chat room.</p>
+				<p>Commands: <strong>/nick {Your Name}</strong> and <strong>/me {your status}</strong></p>
+			</div>
+			<div id="copyright">Copyright &copy; 2010 <a href="http://www.igorpartola.com/">Igor Partola</a>. All rights reserved.</div>
+		</div>
+		<div id="content">
+			<div id="clients">
+				<h2>Connecting...</h2>
+				<ul id="client-list">
+					<li><em>Empty</em></li>
+				</ul>
+			</div>
+			<div id="chat"><p>Connecting...</p></div>
+
+			<form id="form">
+				<div>
+					<textarea rows="3" cols="40" type="text" id="text"></textarea>
+				</div>
+			</form>
+		</div>
+	</div>
+  </body>
+</html>

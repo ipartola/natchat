@@ -1,0 +1,167 @@
+/* ======{ global resets }=================================== */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: normal;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+:focus {
+	outline: 0;
+}
+
+body {
+	line-height: 1;
+	font: 87%/150% Verdana, Helvetica, sans-serif;
+	color: #201;
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+caption,
+th,
+td {
+	text-align: left;
+	font-weight: normal;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
+}
+
+blockquote,
+q {
+	quotes: "" "";
+}
+
+/* ======{ typography }====================================== */
+h1 {
+	font-family: Garamond;
+	font-weight: bold;
+	font-size: 3em;
+	line-height: 1em;
+}
+
+h2 {
+	font-weight: bold;
+	font-size: 1.5em;
+	line-height: 2em;
+}
+
+a {
+	color: #6BE653;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+em {
+	font-style: italic;
+}
+
+label {
+	font-weight: bold;
+}
+
+/* ======{ general layout }================================== */
+#header {
+	height: 50px;
+	padding: 20px 15px;
+	background-color: #35BA1A;
+	color: #fff;
+	position: relative;
+}
+
+#header h1 {
+	float: left;
+	margin-right: 1em;
+}
+
+#header #copyright {
+	position: absolute;
+	bottom: 0.5em;
+	left: 1em;
+}
+
+html, body {
+	height: 100%;
+}
+#wrapper {
+	height: 100%;
+}
+
+#content {
+	height: 400px;
+	position: relative;
+}
+
+#chat {
+	overflow: auto;
+	background-color: #fff;
+	padding: 0.5em;
+}
+      
+#chat p {
+	padding-bottom: 0.25em;
+	margin-bottom: 0.25em;
+}
+
+#chat p:nth-child(even) {
+	background: #F6F6F6;
+}
+
+#clients {
+	border-left: 1px solid #eee;
+	width: 250px;
+	float: right;
+	padding: 0.5em 1em;
+	overflow: auto;
+}
+
+#client-list li {
+	margin-bottom: 0.1em;
+}
+
+#client-list li.me {
+	font-weight: bold;
+}
+
+#form {
+	display: none;
+}
+
+#form div {
+	background-color: #ccc;
+}
+
+#form div #text {
+	padding: 5px;
+	border: 1px solid #ccc;
+	font-size: 1.2em;
+}
