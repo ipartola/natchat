@@ -1,9 +1,12 @@
-var http = require('http'), 
+var 
+		crypto = require('crypto'),
+		http = require('http'), 
 		url = require('url'),
 		fs = require('fs'),
 		sys = require('sys'),
 		Relay = require('./relay'),
 		mimeTypes = {
+			'ico': 'image/vnd.microsoft.icon',
 			'js': 'text/javascript',
 			'css': 'text/css',
 			'html': 'text/html'
@@ -18,9 +21,10 @@ getMimeType = function(extension) {
 	return (extension in mimeTypes) ? mimeTypes[extension] : defaultMimeType;
 },
 		
+root = __dirname + '/htdocs',
 server = http.createServer(function(req, res) {
 	// your normal server code
-	var path = url.parse(req.url).pathname; var root = __dirname + '/htdocs';
+	var path = url.parse(req.url).pathname;
 
 	if (path[path.length - 1] == '/') {
 		path += 'index.html';
@@ -42,12 +46,23 @@ send404 = function(res){
 };
 
 
-var BUFFER_SIZE = 15, PORT = 8080;
+settings = require('./settings');
+
+var log = fs.createWriteStream(settings.LOG_FILE, {flags: 'a'});
+
 var relayOptions = {
 	resource: 'socket.io',
-	transports: ['websocket', 'server-events', /*'flashsocket', */'htmlfile', 'xhr-multipart', 'xhr-polling'],
+	transports: ['websocket', 'server-events', 'flashsocket', 'htmlfile', 'xhr-multipart', 'xhr-polling'],
 	//transportOptions: {},
-	log: sys.log
+	log: function(str) {
+		sys.puts(str);
+	}
 };
-server.listen(PORT);
-var relay = Relay(server, BUFFER_SIZE, relayOptions);
+
+var privateKey = fs.readFileSync(settings.PRIVATE_KEY).toString();
+var certificate = fs.readFileSync(settings.CERTIFICATE).toString();
+
+var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
+server.setSecure(credentials);
+server.listen(settings.PORT);
+var relay = Relay(server, settings.BUFFER_SIZE, relayOptions);

@@ -38,7 +38,7 @@
 	$('#form #text').attr('disabled', true);
 
 	// Mechanics
-	var socket = new io.Socket().connect();
+	var socket = new io.Socket(null, {port: 443, secure: true, transports: ['websocket', 'xhr-multipart', 'xhr-polling', 'htmlfile']}).connect();
 	var nicknames = {};
 	myId = null;
 
@@ -108,17 +108,19 @@
 		}
 	};
 
-	$('#form').submit(function() {
-		var val = $.trim($(this).find('#text').val());
-		$(this).find('#text').val('');
-		if (!val) return;
-		if (val.substring(0, 1) == '/') {
-			handleCommand(val);
+	$('#text').keypress(function(e) {
+		if (e.which == 13 && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+			var val = $.trim($(this).val());
+			$(this).val('');
+			if (!val) return;
+			if (val.substring(0, 1) == '/') {
+				handleCommand(val);
+			}
+			else {
+				sendMessage(val);
+			}
+			return false;
 		}
-		else {
-			sendMessage(val);
-		}
-		return false;
 	});
 
 	var handleCommand = function(val) {
@@ -142,12 +144,17 @@
 		addMessage(val, null);
 	};
 
+	var esc = function(str) {
+		return esc.div.text(str).html();
+	};
+	esc.div = $('<div></div>');
+
 	var addMessage = function(message, nickname) {
 		var label = $('<label></label>');
 		nickname = nickname ? nickname : nicknames[myId];
 		label.text(nickname + ': ');
 
-		var span = $('<span></span>').text(message);
+		var span = $('<span></span>').html(esc(message).replace(/\n/g, '<br />'));
 
 		var p = $('<p></p>').append(label).append(span);
 		$('#chat').append(p);
