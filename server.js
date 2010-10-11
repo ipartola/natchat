@@ -26,8 +26,7 @@ server = http.createServer(function(req, res) {
 	var path = url.parse(req.url).pathname;
 
 	if (req.headers.host != 'natchat.com' && req.headers.host != 'localhost') {
-		res.writeHead(301, {'Location': 'natchat.com' + path});
-		res.write(' ', 'utf8');
+		res.writeHead(301, {'Location': 'http://natchat.com' + path});
 		res.end();
 		return;
 	}
@@ -43,15 +42,13 @@ server = http.createServer(function(req, res) {
 		if (err) return send404(res);
 
 		res.writeHead(200, {'Content-Type': getMimeType(getExtension(path))});
-		res.write(data, 'utf8');
-		res.end();
+		res.end(data, 'utf8');
 	});
 }),
 
 send404 = function(res){
 	res.writeHead(404);
-	res.write('404');
-	res.end();
+	res.end('404');
 };
 
 
