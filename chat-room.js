@@ -1,6 +1,6 @@
 var sys = require('sys');
 
-module.exports = function(id, bufferSize) {
+module.exports = function(id, bufferSize, maxBaseNicknameLength) {
 	var room = {};
 	var clientCount = 0;
 	var clients = {};
@@ -27,7 +27,7 @@ module.exports = function(id, bufferSize) {
 
 
 	var assignNickname = function(nickname, client) {
-		nickname = nickname.substring(0, 16);
+		nickname = nickname.substring(0, maxBaseNicknameLength);
 		var nicks = {};
 		for (sessionId in nicknames) {
 			nicks[nicknames[sessionId]] = sessionId;

@@ -38,7 +38,7 @@
 	$('#form #text').attr('disabled', true);
 
 	// Mechanics
-	var socket = new io.Socket(null, {/*port: 443, secure: true, */transports: ['websocket', 'xhr-multipart', 'xhr-polling', 'htmlfile']}).connect();
+	var socket = new io.Socket(null, {port: location.protocol == 'https:' ? 443 : 80, secure: (location.protocol == 'https:'), transports: ['websocket', 'xhr-multipart', 'xhr-polling', 'htmlfile']}).connect();
 	var nicknames = {};
 	myId = null;
 

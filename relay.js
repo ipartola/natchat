@@ -1,8 +1,8 @@
 var io = require('./lib/socket.io-node/lib/socket.io'),
 	ChatRoomManager = require('./chat-room-manager');
 
-module.exports = function(server, chatRoomBufferSize, relayOptions) {
-	var roomManager = ChatRoomManager(chatRoomBufferSize);
+module.exports = function(server, chatRoomBufferSize, maxBaseNicknameLength, relayOptions) {
+	var roomManager = ChatRoomManager(chatRoomBufferSize, maxBaseNicknameLength);
 	var clientIPMap = {};
 
 	var getRoom = function(client) {

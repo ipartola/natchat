@@ -22,15 +22,19 @@ getMimeType = function(extension) {
 },
 		
 root = __dirname + '/htdocs',
-server = http.createServer(function(req, res) {
+httpServer = http.createServer(function(req, res) {
+	var path = url.parse(req.url).pathname;
+	res.writeHead(301, {'Location': 'https://' + req.headers.host + path});
+	res.end();
+}),
+httpsServer = http.createServer(function(req, res) {
 	var path = url.parse(req.url).pathname;
 
 	if (req.headers.host != 'natchat.com' && req.headers.host != 'localhost') {
-		res.writeHead(301, {'Location': 'http://natchat.com' + path});
+		res.writeHead(301, {'Location': 'https://natchat.com' + path, 'Content-Length': 0});
 		res.end();
 		return;
 	}
-
 
 	if (path[path.length - 1] == '/') {
 		path += 'index.html';
@@ -41,7 +45,7 @@ server = http.createServer(function(req, res) {
 	fs.readFile(root + path, function(err, data){
 		if (err) return send404(res);
 
-		res.writeHead(200, {'Content-Type': getMimeType(getExtension(path))});
+		res.writeHead(200, {'Content-Type': getMimeType(getExtension(path)), 'Content-Length': data.length});
 		res.end(data, 'utf8');
 	});
 }),
@@ -69,6 +73,7 @@ var privateKey = fs.readFileSync(settings.PRIVATE_KEY).toString();
 var certificate = fs.readFileSync(settings.CERTIFICATE).toString();
 
 var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
-//server.setSecure(credentials);
-server.listen(settings.PORT);
-var relay = Relay(server, settings.BUFFER_SIZE, relayOptions);
+httpsServer.setSecure(credentials);
+httpsServer.listen(settings.HTTPS_PORT);
+httpServer.listen(settings.HTTP_PORT);
+var relay = Relay(httpsServer, settings.BUFFER_SIZE, settings.MAX_BASE_NICKNAME_LENGTH, relayOptions);

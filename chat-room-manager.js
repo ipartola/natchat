@@ -1,6 +1,6 @@
 var Room = require('./chat-room');
 
-module.exports = function(bufferSize) {
+module.exports = function(bufferSize, maxBaseNicknameLength) {
 	var manager = {};
 	var rooms = {};
 
@@ -17,7 +17,7 @@ module.exports = function(bufferSize) {
 			var room = rooms[id];
 		}
 		else {
-			var room = Room(id, bufferSize);
+			var room = Room(id, bufferSize, maxBaseNicknameLength);
 			manager.addRoom(room);
 		}
 
