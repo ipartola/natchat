@@ -24,7 +24,12 @@ getMimeType = function(extension) {
 root = __dirname + '/htdocs',
 httpServer = http.createServer(function(req, res) {
 	var path = url.parse(req.url).pathname;
-	res.writeHead(301, {'Location': 'https://' + req.headers.host + path});
+	var host = req.headers.host.split('.');
+	if (host.length > 2) {
+		host.splice(0, 1);
+	}
+
+	res.writeHead(301, {'Location': 'https://' + host.join('.') + path, 'Content-Length': 0});
 	res.end();
 }),
 httpsServer = http.createServer(function(req, res) {
