@@ -22,17 +22,7 @@ getMimeType = function(extension) {
 },
 		
 root = __dirname + '/htdocs',
-httpServer = http.createServer(function(req, res) {
-	var path = url.parse(req.url).pathname;
-	var host = req.headers.host.split('.');
-	if (host.length > 2) {
-		host.splice(0, 1);
-	}
-
-	res.writeHead(301, {'Location': 'https://' + host.join('.') + path, 'Content-Length': 0});
-	res.end();
-}),
-httpsServer = http.createServer(function(req, res) {
+server = http.createServer(function(req, res) {
 	var path = url.parse(req.url).pathname;
 
 	if (req.headers.host != 'natchat.com' && req.headers.host != 'localhost') {
@@ -78,7 +68,6 @@ var privateKey = fs.readFileSync(settings.PRIVATE_KEY).toString();
 var certificate = fs.readFileSync(settings.CERTIFICATE).toString();
 
 var credentials = crypto.createCredentials({key: privateKey, cert: certificate});
-httpsServer.setSecure(credentials);
-httpsServer.listen(settings.HTTPS_PORT);
-httpServer.listen(settings.HTTP_PORT);
-var relay = Relay(httpsServer, settings.BUFFER_SIZE, settings.MAX_BASE_NICKNAME_LENGTH, relayOptions);
+server.setSecure(credentials);
+server.listen(settings.PORT);
+var relay = Relay(server, settings.BUFFER_SIZE, settings.MAX_BASE_NICKNAME_LENGTH, relayOptions);
