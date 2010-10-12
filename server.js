@@ -25,17 +25,9 @@ root = __dirname + '/htdocs',
 server = http.createServer(function(req, res) {
 	var path = url.parse(req.url).pathname;
 
-	if (req.headers.host != 'natchat.com' && req.headers.host != 'localhost') {
-		res.writeHead(301, {'Location': 'https://natchat.com' + path, 'Content-Length': 0});
-		res.end();
-		return;
-	}
-
 	if (path[path.length - 1] == '/') {
 		path += 'index.html';
 	}
-
-	console.log(req.socket.remoteAddress + ' - ' + req.method + ' ' + req.url);
 
 	fs.readFile(root + path, function(err, data){
 		if (err) return send404(res);
@@ -60,6 +52,7 @@ var relayOptions = {
 	transports: ['websocket', 'server-events', 'flashsocket', 'htmlfile', 'xhr-multipart', 'xhr-polling'],
 	//transportOptions: {},
 	log: function(str) {
+		// TODO: make this use proper logging.
 		sys.puts(str);
 	}
 };
